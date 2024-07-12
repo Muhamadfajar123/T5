@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fajar Store</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-router@3"></script>
+</head>
+<body>
+
+<div id="app">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <router-link class="navbar-brand" to="/">Fajar Store.</router-link>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item" v-for="item in navbarItems" :key="item.text">
+          <router-link class="nav-link" :to="item.href">{{ item.text }}</router-link>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Router View -->
+  <router-view></router-view>
+
+  <!-- Footer -->
+  <footer class="bg-light text-center text-lg-start mt-5">
+    <div class="text-center p-3">
+      © 2023 Fajar Store. All rights reserved.
+    </div>
+  </footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  // Define components
+  const Home = {
+    template: `
+      <div>
+        <!-- Carousel -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li v-for="(slide, index) in slides" :data-target="'#carouselExampleIndicators'" :data-slide-to="index" :class="{ active: index === 0 }" :key="index"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item" v-for="(slide, index) in slides" :class="{ active: index === 0 }" :key="slide.id">
+              <img :src="slide.image" class="d-block w-100" :alt="slide.alt">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
+        <!-- Card Section -->
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-4" v-for="product in products" :key="product.id">
+              <div class="card">
+                <img :src="product.image" class="card-img-top" :alt="product.name">
+                <div class="card-body">
+                  <h5 class="card-title">{{ product.name }}</h5>
+                  <p class="card-text">{{ product.description }}</p>
+                  <a :href="product.link" class="btn btn-primary">Beli Sekarang</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `,
+    data() {
+      return {
+        slides: [
+          { id: 1, image: 'https://i.pinimg.com/736x/87/4a/0a/874a0a1f85534d3119838feae96f3032.jpg', alt: 'Slide 1' },
+          { id: 2, image: 'https://i.pinimg.com/564x/5f/57/a3/5f57a35d1e027450d3d356773bec5ff8.jpg', alt: 'Slide 2' },
+          { id: 3, image: 'https://i.pinimg.com/736x/c0/3c/31/c03c3132f2df7f20090f238532ac6688.jpg', alt: 'Slide 3' }
+        ],
+        products: [
+          { id: 1, name: 'Asics Gel Kayano 14', description: 'UK 42 - RP.1.750.000 - 2x Used', image: 'https://i.pinimg.com/564x/80/53/b7/8053b7ce5d4ac308c09853ce6b5c70dd.jpg', link: '#' },
+          { id: 2, name: 'NB 1906D Protection Pack', description: 'UK 43 - RP.2.400.000 - BNIB', image: 'https://i.pinimg.com/564x/ce/60/90/ce609025a0420f9f4508bdfb51598346.jpg', link: '#' },
+          { id: 3, name: 'Fred Perry polo tshirt', description: 'Size L - RP.850.000 - 4x Used', image: 'https://i.pinimg.com/736x/3b/61/0b/3b610bec0ee948a08cbabb47d24e2a4c.jpg', link: '#' }
+        ]
+      };
+    }
+  };
+
+  const About = {
+    template: `
+      <div class="container mt-5">
+        <h2>Tentang Kami</h2>
+        <p>Kami adalah toko online consign yang menjual berbagai macam produk preloved atau preowned berkualitas.</p>
+        <p>Barang yang kami jual sudah pasti original dan bukan barang kw.</p>
+        <p>Misi kami adalah memberikan pengalaman belanja terbaik bagi pelanggan.</p>
+        <p>Kontak kami di: 0815-7765-1934</p>
+      </div>
+    `
+  };
+
+  // Define routes
+  const routes = [
+    { path: '/', component: Home },
+    { path: '/about', component: About }
+  ];
+
+  // Create the router instance
+  const router = new VueRouter({
+    routes
+  });
+
+  // Create and mount the root instance
+  new Vue({
+    el: '#app',
+    router,
+    data: {
+      navbarItems: [
+        { text: 'Home', href: '/' },
+        { text: 'Produk', href: '/' },
+        { text: 'Tentang Kami', href: '/about' },
+        { text: 'Kontak', href: '/' }
+      ]
+    }
+  });
+</script>
+</body>
+</html>
